@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2048 Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
@@ -13,17 +13,27 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
         .cell {
-            width: 100px;
-            height: 100px;
+            width: calc(25vw - 10px);
+            height: calc(25vw - 10px);
+            max-width: 100px;
+            max-height: 100px;
             background-color: rgba(205, 193, 180, 0.8);
             margin: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: clamp(16px, 5vw, 24px);
             font-weight: bold;
             border-radius: 5px;
         }
@@ -35,11 +45,35 @@
             background-color: rgba(187, 173, 160, 0.8);
             padding: 5px;
             border-radius: 5px;
+            width: calc(100vw - 40px);
+            max-width: 420px;
+        }
+
+        #score {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: bold;
+            margin-top: 10px;
+            color: white;
+        }
+
+        #restart {
+            margin-top: 20px;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #restart:hover {
+            background-color: #2563eb;
         }
     </style>
 </head>
 
-<body class="flex flex-col items-center justify-center h-screen">
+<body>
     <h1 class="text-3xl font-bold mb-4 text-white">2048 Game</h1>
     <div id="board" class="board"></div>
     <div id="score" class="text-xl font-bold mt-4 text-white">Score: 0</div>
@@ -54,12 +88,11 @@
         let gameBoard = [];
         let score = 0;
 
-        // 触摸事件相关变量
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
         let touchEndY = 0;
-        const threshold = 50; // 滑动阈值
+        const threshold = 50;
 
         function initBoard() {
             gameBoard = Array.from({ length: 4 }, () => Array(4).fill(0));
@@ -234,7 +267,6 @@
             }
         });
 
-        // 触摸事件监听
         board.addEventListener('touchstart', function (event) {
             touchStartX = event.touches[0].clientX;
             touchStartY = event.touches[0].clientY;
