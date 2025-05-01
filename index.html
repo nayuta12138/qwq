@@ -36,6 +36,34 @@
             padding: 5px;
             border-radius: 5px;
         }
+
+        .control-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .control-buttons-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .control-button {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 5px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .control-button:hover {
+            background-color: rgba(200, 200, 200, 0.8);
+        }
     </style>
 </head>
 
@@ -43,6 +71,18 @@
     <h1 class="text-3xl font-bold mb-4 text-white">2048 Game</h1>
     <div id="board" class="board"></div>
     <div id="score" class="text-xl font-bold mt-4 text-white">Score: 0</div>
+    <div class="control-buttons">
+        <div class="control-buttons-row">
+            <button id="up-button" class="control-button">↑</button>
+        </div>
+        <div class="control-buttons-row">
+            <button id="left-button" class="control-button">←</button>
+            <button id="right-button" class="control-button">→</button>
+        </div>
+        <div class="control-buttons-row">
+            <button id="down-button" class="control-button">↓</button>
+        </div>
+    </div>
     <button id="restart" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Restart
     </button>
@@ -51,6 +91,10 @@
         const board = document.getElementById('board');
         const scoreElement = document.getElementById('score');
         const restartButton = document.getElementById('restart');
+        const upButton = document.getElementById('up-button');
+        const leftButton = document.getElementById('left-button');
+        const rightButton = document.getElementById('right-button');
+        const downButton = document.getElementById('down-button');
         let gameBoard = [];
         let score = 0;
 
@@ -261,6 +305,12 @@
                 }
             }
         });
+
+        // 按钮点击事件监听
+        upButton.addEventListener('click', moveUp);
+        leftButton.addEventListener('click', moveLeft);
+        rightButton.addEventListener('click', moveRight);
+        downButton.addEventListener('click', moveDown);
 
         restartButton.addEventListener('click', function () {
             score = 0;
