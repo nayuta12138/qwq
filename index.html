@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url('images/jykw.jpg'); /* 使用相对路径引用本地图片 */
+            background-image: url('images/your-background-image.jpg'); /* 使用相对路径引用本地图片 */
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -53,6 +53,12 @@
         const restartButton = document.getElementById('restart');
         let gameBoard = [];
         let score = 0;
+
+        // 触摸事件相关变量
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
 
         function initBoard() {
             gameBoard = Array.from({ length: 4 }, () => Array(4).fill(0));
@@ -224,6 +230,34 @@
                 case 'ArrowRight': moveRight(); break;
                 case 'ArrowUp': moveUp(); break;
                 case 'ArrowDown': moveDown(); break;
+            }
+        });
+
+        // 触摸事件监听
+        document.addEventListener('touchstart', function (event) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', function (event) {
+            touchEndX = event.changedTouches[0].clientX;
+            touchEndY = event.changedTouches[0].clientY;
+
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX > 0) {
+                    moveRight();
+                } else {
+                    moveLeft();
+                }
+            } else {
+                if (deltaY > 0) {
+                    moveDown();
+                } else {
+                    moveUp();
+                }
             }
         });
 
